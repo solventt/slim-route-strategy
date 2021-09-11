@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<psalm errorLevel="2">
+    <projectFiles>
+        <directory name="src"/>
+    </projectFiles>
+
+    <issueHandlers>
+
+        <UndefinedMethod>
+            <errorLevel type="suppress">
+                <file name="src/CustomRulesAggregator.php" />
+            </errorLevel>
+        </UndefinedMethod>
+
+        <PossiblyUndefinedVariable>
+            <errorLevel type="suppress">
+                <file name="src/Rules/MakeDtoRule.php" />
+            </errorLevel>
+        </PossiblyUndefinedVariable>
+
+        <PossiblyNullReference>
+            <errorLevel type="suppress">
+                <file name="src/Rules/TypeHintContainerRule.php" />
+            </errorLevel>
+        </PossiblyNullReference>
+
+    </issueHandlers>
+</psalm>

@@ -1,0 +1,13 @@
+.idea
+nbproject
+
+docker/
+vendor/
+composer.lock
+docker-compose.yml
+Makefile
+
+php-cs.cache
+
+
+
