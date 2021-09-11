@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset name="Configs for PHP_CodeSniffer">
+
+    <config name="php_version" value="70421"/>
+    <file>src</file>
+    <arg name="colors"/>
+    <arg value="sp"/>
+    <arg name="parallel" value="50"/>
+
+    <ini name="memory_limit" value="50M"/>
+
+    <arg name="cache" value="./php-cs.cache"/>
+
+    <rule ref="PSR12">
+        <exclude name="PSR2.Files.EndFileNewline.NoneFound"/>
+        <exclude name="PSR2.Methods.FunctionCallSignature"/>
+        <exclude name="Squiz.WhiteSpace.ControlStructureSpacing"/>
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration"/>
+    </rule>
+
+</ruleset>
