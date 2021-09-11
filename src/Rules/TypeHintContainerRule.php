@@ -6,18 +6,14 @@ namespace SlimRouteStrategy\Rules;
 
 use Psr\Container\ContainerInterface;
 use ReflectionNamedType;
+use ReflectionUnionType;
 
 /**
  * Injects type-hinted callback parameters using the DI container
  */
 class TypeHintContainerRule implements AggregatorRuleInterface
 {
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
+    public function __construct(private ContainerInterface $container){}
 
     /**
      * @inheritDoc
@@ -28,15 +24,14 @@ class TypeHintContainerRule implements AggregatorRuleInterface
     {
         foreach ($unresolvedParams as $position => $parameter) {
 
-            /* @var ReflectionNamedType $parameterType */
             $parameterType = $parameter->getType();
 
-            if (!$parameterType || $parameterType->isBuiltin()) {
+            if (!$parameterType || $parameterType instanceof ReflectionUnionType) {
                 continue;
             }
 
-            //  leave only in ^8.0
-            if (!$parameterType instanceof ReflectionNamedType) {
+            /** @var ReflectionNamedType $parameterType */
+            if ($parameterType->isBuiltin()) {
                 continue;
             }
 

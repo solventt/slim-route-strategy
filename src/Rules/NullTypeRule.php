@@ -21,7 +21,7 @@ class NullTypeRule implements AggregatorRuleInterface
 
             if (!$parameter->isDefaultValueAvailable()) {
                 $parameterType = $parameter->getType();
-                if ($parameterType && $parameterType->allowsNull()) {
+                if ($parameterType?->allowsNull()) {
                     $resolvedParams[$position] = null;
                 }
             }

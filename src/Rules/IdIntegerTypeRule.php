@@ -19,11 +19,11 @@ class IdIntegerTypeRule implements AggregatorRuleInterface
     {
         if (isset($routeParams['id'])) {
             $routeParams['id'] = (int) $routeParams['id'];
-        }
 
-        foreach ($unresolvedParams as $position => $parameter) {
-            if ($parameter->name === 'id') {
-                $resolvedParams[$position] = $routeParams[$parameter->name];
+            foreach ($unresolvedParams as $position => $parameter) {
+                if ($parameter->name === 'id') {
+                    $resolvedParams[$position] = $routeParams[$parameter->name];
+                }
             }
         }
 

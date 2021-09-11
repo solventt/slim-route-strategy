@@ -12,12 +12,7 @@ use SlimRouteStrategy\Dto;
  */
 class MakeDtoRule implements AggregatorRuleInterface
 {
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
+    public function __construct(private ContainerInterface $container){}
 
     /**
      * @inheritDoc

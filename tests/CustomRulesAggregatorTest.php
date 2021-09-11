@@ -10,6 +10,7 @@ use SlimRouteStrategy\Rules\FlexibleSignatureRule;
 use SlimRouteStrategy\Rules\IdIntegerTypeRule;
 use SlimRouteStrategy\Rules\MakeDtoRule;
 use SlimRouteStrategy\NotEnoughParametersException;
+use SlimRouteStrategy\Rules\TypeHintContainerRule;
 use SlimRouteStrategy\Tests\Mocks\Callables\ArrayCallable;
 use SlimRouteStrategy\Tests\Mocks\Callables\InvokableClass;
 use SlimRouteStrategy\Tests\Mocks\Dto\UserUpdateDto;
@@ -88,7 +89,7 @@ class CustomRulesAggregatorTest extends TestCase
                              string $id,
                              string $test,
                              \stdClass $obj,
-                             ?string $name,
+                             null|string $name,
                              ?int $count = 5): ResponseInterface {
 
             $params = array_merge(func_get_args(), [$count]);
@@ -238,5 +239,16 @@ class CustomRulesAggregatorTest extends TestCase
         $this->expectError();
 
         $strategy(new InvokableClass(), $this->request, $this->response, $this->params);
+    }
+
+    public function testUnionTypesInTypeHintContainerRule()
+    {
+        $closure = function (string $id, stdClass|InvokableClass $class) {};
+
+        $strategy = new CustomRulesAggregator($this->container, [TypeHintContainerRule::class]);
+
+        $this->expectException(NotEnoughParametersException::class);
+
+        $strategy($closure, $this->request, $this->response, $this->params);
     }
 }

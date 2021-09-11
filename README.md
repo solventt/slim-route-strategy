@@ -11,22 +11,22 @@ Package is an implementation of a route invocation strategy for the Slim microfr
 
 ### Requirements
 
-- PHP ^7.4 or ^8.0
+- PHP 7.4+ or 8.0+
 - Slim microframework version  3+ or 4+
 - any DI container. But if it has no autowiring, ```TypeHintContainerRule``` and ```MakeDtoRule``` will not affect the resolving of controller parameters.
 
 ### Installing
 ```
-// php ^7.4
-composer require solvent13/slim-route-strategy ^0.1
+// php 7.4+
+composer require solventt/slim-route-strategy ^0.1
 
-// php ^8.0
-composer require solvent13/slim-route-strategy ^1.0
+// php 8.0+
+composer require solventt/slim-route-strategy ^1.0
 ```
 
 ### Flexible controller signature
 
-By default, Slim controllers have a strict signature: ```$request```, ```$response```, ```$args``` 
+By default, Slim controllers have a strict signature: ```$request```, ```$response```, ```$args```
 
 And so you can't omit any of these parameters even if one is not needed. It is called the ```RequestResponse``` strategy.
 
@@ -42,8 +42,8 @@ But with this package:
 
 The route ```CustomRulesAggregator``` strategy consist of the following rules:
 
-1) **IdIntegerTypeRule** (optional) - casts string type of the 'id' route parameter (if exists) to integer type. It's especially conveniently while using declare(strict_types=1)
-```
+1\) **IdIntegerTypeRule** (optional) - casts string type of the 'id' route parameter (if exists) to integer type. It's especially conveniently while using declare(strict_types=1)
+```php
 $app->get('/profile/{id:\d+}', [ProfileController::class, 'show']);
 
 ...
@@ -53,16 +53,18 @@ public function show(int $id): Response
    // incoming $id has integer type instead of default's string
 }
 ```
-**NOTE**: the name of the controller parameter and the route placeholder MUST be ```id```.
+NOTE: the name of the controller parameter and the route placeholder MUST be ```id```.
 
-2) **FlexibleSignatureRule** - tries to map an associative array of route parameters to the controller parameters names.
+<br>
+
+2\) **FlexibleSignatureRule** - tries to map an associative array of route parameters to the controller parameters names.
 
 Assume there is the controller method:
-```
+```php
 public function show($request, $response, $id) {}
 ```
 And there are the route parameters:
-```
+```php
 [
    'request' => 'value_1', 
    'response' => 'value_2', 
@@ -70,7 +72,7 @@ And there are the route parameters:
 ]
 ```
 Then controller method will receive next parameters values:
-```
+```php
 public function show($request, $response, $id)
 {
   echo $request;   // 'value_1'
@@ -78,30 +80,40 @@ public function show($request, $response, $id)
   echo $id;        // '1' - string, because the IdIntegerTypeRule is off
 }
 ```
-**NOTE:** the names of the controller request/response parameters MUST be ```request``` and ```response``` accordingly.
-3) **TypeHintContainerRule** - injects type-hinted controller parameters using the DI container. But the union types will be ignored.
-```
+NOTE: the names of the controller request/response parameters MUST be ```request``` and ```response``` accordingly.
+
+<br>
+
+3\) **TypeHintContainerRule** - injects type-hinted controller parameters using the DI container. But the union types will be ignored.
+```php
 public function show(Twig $twig, self $surrentClass) 
 {
    // The Twig and declaring class instances will be automatically resolved
 }
 ```
-4) **NullTypeRule** - if a controller parameter does not have a default value, it checks presence of the 'null' parameter type and (if successful) take it for resolving:
-```
+
+<br>
+
+4\) **NullTypeRule** - if a controller parameter does not have a default value, it checks presence of the 'null' parameter type and (if successful) take it for resolving:
+```php
 public function show(?string $name, ?int $count = 5) 
 {
    var_dump($name);   // null
    echo $count;       // 5
 }
 ```
-5) **MakeDtoRule** - read the next section.
+
+<br>
+
+5\) **MakeDtoRule** - read the next section.
 
 By default, only ```FlexibleSignatureRule```, ```TypeHintContainerRule``` and ```NullTypeRule``` are active.
 
 Also, you can add your own rules.
+
 ### Resolving DTO
 ```MakeDtoRule``` converts a data array of POST|PUT|PATCH requests into a Data Transfer Object (DTO)
-```
+```php
 public function update(Dto $dto, int $id)
 {
    // do something with $dto
@@ -112,7 +124,7 @@ By default, it will be created the built-in Dto class filled with the request da
 **Example**
 
 Definition for the DI Container:
-```
+```php
 return [
     'dtoFactories' => [
          
@@ -124,7 +136,7 @@ return [
 ];
 ```
 Factory logic:
-```
+```php
 class UserUpdateDtoFactory
 {
    public function __invoke(array $requestData): UserUpdateDto
@@ -148,7 +160,7 @@ class UserUpdateDtoFactory
 }
 ```
 And the controller method:
-```
+```php
 public function update(UserUpdateDto $dto)
 {
    // do something with $dto
@@ -161,7 +173,7 @@ public function update(UserUpdateDto $dto)
 
 ### Use cases
 For Slim version ^4.0, ```index.php```:
-```
+```php
 <?php
 
 use DI\Container;
@@ -188,7 +200,7 @@ $app->run();
 ```
 
 For Slim version ^3.0, ```index.php```:
-```
+```php
 <?php
 
 use Slim\App;
@@ -211,12 +223,13 @@ $app->get('/hello/{name}', function ($response, $name) {
 
 $app->run();
 ```
-**About the strategy rules**
+
+### About the strategy rules
 
 If you don't provide any rules to the rout strategy constructor, only ``FlexibleSignatureRule``, ``TypeHintContainerRule`` and ``NullTypeRule`` will be enabled by default.
 
 For example, you want to add ```IdIntegerTypeRule``` and ```MakeDtoRule```, then you should define all necessary rules explicitly:
-```
+```php
 ...
 
 $strategyRules = [
@@ -234,7 +247,7 @@ $strategy = new CustomRulesAggregator($container, $strategyRules);
 ...
 ```
 Or if you want to add only a rule:
-```
+```php
 ...
 
 $strategy = new CustomRulesAggregator($container, [FlexibleSignatureRule::class]);
@@ -244,23 +257,23 @@ $strategy = new CustomRulesAggregator($container, [FlexibleSignatureRule::class]
 
 REMEMBER:
 - the rules must be specified as existent class strings
-- the rules order matters. E.g. if you define ```IdIntegerTypeRule``` after ```FlexibleSignatureRule```. Then ```IdIntegerTypeRule``` will have no effect - the type of the ```id``` will be string instead of integer. 
+- the rules order matters. E.g. if you define ```IdIntegerTypeRule``` after ```FlexibleSignatureRule```. Then ```IdIntegerTypeRule``` will have no effect - the type of the ```id``` will be string instead of integer.
 
 **The example above shows the correct order of the rules**.
 
 ### Writing custom rules
-Your custom rule must implement ```AggregatorRuleInterface```. 
+Your custom rule must implement ```AggregatorRuleInterface```.
 
 Let's look at the simple example. Suppose you want the controller method to receive the User entity as an argument. So the route is:
-```
+```php
 $app->get('/profile/{user:\d+}', [ProfileController::class, 'show']);
 ```
 The controller method is:
-```
+```php
 public function show(User $user){}
 ```
 And you wrote your custom ```FindUserEntityRule```:
-```
+```php
 class FindUserEntityRule implements AggregatorRuleInterface
 {
     public function __construct(private UserRepository $users){}

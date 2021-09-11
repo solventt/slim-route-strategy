@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SlimRouteStrategy;
 
 use ReflectionParameter;
+use ReflectionUnionType;
 use SlimRouteStrategy\Rules\AggregatorRuleInterface;
 use SlimRouteStrategy\Rules\NullTypeRule;
 use SlimRouteStrategy\Rules\FlexibleSignatureRule;
@@ -24,15 +25,13 @@ use TypeError;
 
 class CustomRulesAggregator implements InvocationStrategyInterface
 {
-    private ContainerInterface $container;
-
     private array $rules;
 
     /**
      * @param array $rules
      * @param ContainerInterface $container
      */
-    public function __construct(ContainerInterface $container, array $rules = [])
+    public function __construct(private ContainerInterface $container, array $rules = [])
     {
         foreach ($rules as $rule) {
             if (!is_string($rule) || !class_exists($rule)) {
@@ -41,8 +40,6 @@ class CustomRulesAggregator implements InvocationStrategyInterface
         }
 
         $this->rules = !$rules ? $this->setDefaultRules() : $rules;
-
-        $this->container = $container;
     }
 
     /**
@@ -105,8 +102,20 @@ class CustomRulesAggregator implements InvocationStrategyInterface
             /** @var ReflectionParameter $param */
             foreach ($diff as $param) {
                 if (!$param->isVariadic() && !$param->isDefaultValueAvailable()) {
-                    $type = $param->getType() ? $param->getType()->getName() . ' ' : '';
-                    $parameters[] = $type . '$' . $param->name;
+                    $reflectionType = $param->getType();
+
+                    $typeString = '';
+
+                    if ($reflectionType instanceof ReflectionUnionType) {
+                        foreach ($reflectionType->getTypes() as $type) {
+                            $typeString .= $type->getName() . '|';
+                        }
+                        $typeString = rtrim($typeString, '|') . ' ';
+                    } else {
+                        $typeString = $reflectionType ? $reflectionType->getName() . ' ' : '';
+                    }
+
+                    $parameters[] = $typeString . '$' . $param->name;
                 }
             }
 
