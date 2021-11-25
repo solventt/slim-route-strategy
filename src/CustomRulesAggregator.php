@@ -48,10 +48,12 @@ class CustomRulesAggregator implements InvocationStrategyInterface
     /**
      * @inheritDoc
      */
-    public function __invoke(callable $callable,
-                             ServerRequestInterface $request,
-                             ResponseInterface $response,
-                             array $routeArguments): ResponseInterface
+    public function __invoke(
+        callable $callable,
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        array $routeArguments
+    ): ResponseInterface
     {
         $parameters = $this->prepareParams($request, $response, $routeArguments);
 
@@ -73,18 +75,22 @@ class CustomRulesAggregator implements InvocationStrategyInterface
      * @param array $routeArguments
      * @return array
      */
-    private function prepareParams(ServerRequestInterface $request,
-                                   ResponseInterface $response,
-                                   array $routeArguments): array
+    private function prepareParams(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        array $routeArguments
+    ): array
     {
         $parameters = ['request' => $request, 'response' => $response] + $routeArguments;
         $parameters += $request->getAttributes();
 
         // The RouteContext constants are not used below because the class is absent in Slim version 3
-        unset($parameters['__route__'],
-              $parameters['__routeParser__'],
-              $parameters['__routingResults__'],
-              $parameters['__basePath__']);
+        unset(
+            $parameters['__route__'],
+            $parameters['__routeParser__'],
+            $parameters['__routingResults__'],
+            $parameters['__basePath__']
+        );
 
         return $parameters;
     }
@@ -145,8 +151,10 @@ class CustomRulesAggregator implements InvocationStrategyInterface
      * @param array $routeParams request/response objects, route placeholders values, request attributes
      * @return array
      */
-    private function resolveCallbackParameters(ReflectionFunctionAbstract $callableReflection,
-                                               array $routeParams): array
+    private function resolveCallbackParameters(
+        ReflectionFunctionAbstract $callableReflection,
+        array $routeParams
+    ): array
     {
         $resolvedParams = [];
 

@@ -22,12 +22,13 @@ class TypeHintContainerRule implements AggregatorRuleInterface
     /**
      * @inheritDoc
      */
-    public function resolveParameters(array $unresolvedParams,
-                                      array $routeParams,
-                                      array $resolvedParams): array
+    public function resolveParameters(
+        array $unresolvedParams,
+        array $routeParams,
+        array $resolvedParams
+    ): array
     {
         foreach ($unresolvedParams as $position => $parameter) {
-
             $parameterType = $parameter->getType();
 
             if (!$parameterType || $parameterType->isBuiltin()) {

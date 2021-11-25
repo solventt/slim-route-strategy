@@ -22,12 +22,13 @@ class MakeDtoRule implements AggregatorRuleInterface
     /**
      * @inheritDoc
      */
-    public function resolveParameters(array $unresolvedParams,
-                                      array $routeParams,
-                                      array $resolvedParams): array
+    public function resolveParameters(
+        array $unresolvedParams,
+        array $routeParams,
+        array $resolvedParams
+    ): array
     {
         if (in_array($routeParams['request']->getMethod(), ['POST', 'PATCH', 'PUT'])) {
-
             $requestData = $routeParams['request']->getParsedBody();
 
             // The _METHOD field could be present for the Slim built-in MethodOverrideMiddleware
@@ -35,7 +36,6 @@ class MakeDtoRule implements AggregatorRuleInterface
 
             foreach ($unresolvedParams as $position => $parameter) {
                 if (preg_match('/dto/i', $parameter->name)) {
-
                     $dto = $this->getDto($parameter->name, $requestData);
 
                     $resolvedParams[$position] = $dto;

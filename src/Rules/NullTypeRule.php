@@ -13,12 +13,13 @@ class NullTypeRule implements AggregatorRuleInterface
     /**
      * @inheritDoc
      */
-    public function resolveParameters(array $unresolvedParams,
-                                      array $routeParams,
-                                      array $resolvedParams): array
+    public function resolveParameters(
+        array $unresolvedParams,
+        array $routeParams,
+        array $resolvedParams
+    ): array
     {
         foreach ($unresolvedParams as $position => $parameter) {
-
             if (!$parameter->isDefaultValueAvailable()) {
                 $parameterType = $parameter->getType();
                 if ($parameterType && $parameterType->allowsNull()) {

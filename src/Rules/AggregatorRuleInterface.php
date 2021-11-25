@@ -17,5 +17,6 @@ interface AggregatorRuleInterface
     public function resolveParameters(
         array $unresolvedParams,
         array $routeParams,
-        array $resolvedParams): array;
+        array $resolvedParams
+    ): array;
 }
