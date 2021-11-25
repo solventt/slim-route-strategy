@@ -13,7 +13,6 @@
 
     <rule ref="PSR12">
         <exclude name="PSR2.Files.EndFileNewline.NoneFound"/>
-        <exclude name="PSR2.Methods.FunctionCallSignature"/>
         <exclude name="Squiz.WhiteSpace.ControlStructureSpacing"/>
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore"/>
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration"/>

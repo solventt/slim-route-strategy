@@ -13,9 +13,11 @@ class IdIntegerTypeRule implements AggregatorRuleInterface
     /**
      * @inheritDoc
      */
-    public function resolveParameters(array $unresolvedParams,
-                                      array $routeParams,
-                                      array $resolvedParams): array
+    public function resolveParameters(
+        array $unresolvedParams,
+        array $routeParams,
+        array $resolvedParams
+    ): array
     {
         if (isset($routeParams['id'])) {
             $routeParams['id'] = (int) $routeParams['id'];

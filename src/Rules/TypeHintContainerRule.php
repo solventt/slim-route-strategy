@@ -13,17 +13,18 @@ use ReflectionUnionType;
  */
 class TypeHintContainerRule implements AggregatorRuleInterface
 {
-    public function __construct(private ContainerInterface $container){}
+    public function __construct(private ContainerInterface $container) {}
 
     /**
      * @inheritDoc
      */
-    public function resolveParameters(array $unresolvedParams,
-                                      array $routeParams,
-                                      array $resolvedParams): array
+    public function resolveParameters(
+        array $unresolvedParams,
+        array $routeParams,
+        array $resolvedParams
+    ): array
     {
         foreach ($unresolvedParams as $position => $parameter) {
-
             $parameterType = $parameter->getType();
 
             if (!$parameterType || $parameterType instanceof ReflectionUnionType) {
