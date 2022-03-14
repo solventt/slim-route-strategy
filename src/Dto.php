@@ -6,5 +6,4 @@ namespace SlimRouteStrategy;
 
 class Dto
 {
-
 }

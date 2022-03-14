@@ -2,6 +2,7 @@
 nbproject
 
 docker/
+Dockerfile
 vendor/
 composer.lock
 docker-compose.yml

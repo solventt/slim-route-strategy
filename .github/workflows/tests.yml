@@ -1,0 +1,38 @@
+name: Test php 8
+
+on:
+  push:
+    branches:
+      - 8.0
+  pull_request:
+    branches:
+      - 8.0
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [8.0, 8.1]
+
+    steps:
+
+      - name: Clone a repository
+        uses: actions/checkout@v3.0.0
+
+      - name: Install PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@2.17.1
+        with:
+          php-version: ${{ matrix.php }}
+
+      - name: Install dependencies with Composer
+        uses: ramsey/composer-install@2.1.0
+
+      - name: Run module tests
+        run : vendor/bin/phpunit
+
+      - name: Run code style checking
+        run : vendor/bin/phpcs
+
+      - name: Run a static analysis tool
+        run : vendor/bin/psalm

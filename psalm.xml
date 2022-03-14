@@ -24,5 +24,11 @@
             </errorLevel>
         </PossiblyNullReference>
 
+        <TypeDoesNotContainType>
+            <errorLevel type="suppress">
+                <file name="src/Rules/TypeHintContainerRule.php" />
+            </errorLevel>
+        </TypeDoesNotContainType>
+
     </issueHandlers>
 </psalm>
