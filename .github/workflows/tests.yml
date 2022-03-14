@@ -1,0 +1,36 @@
+name: Test php 7
+
+on:
+  push:
+    branches:
+      - 7.4
+  pull_request:
+    branches:
+      - 7.4
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone a repository
+        uses: actions/checkout@v3.0.0
+        with:
+          ref: 7.4
+
+      - name: Install PHP 7.4
+        uses: shivammathur/setup-php@2.17.1
+        with:
+          php-version: 7.4
+
+      - name: Install dependencies with Composer
+        uses: ramsey/composer-install@2.1.0
+
+      - name: Run module tests
+        run : vendor/bin/phpunit
+
+      - name: Run code style checking
+        run : vendor/bin/phpcs
+
+      - name: Run a static analysis tool
+        run : vendor/bin/psalm
