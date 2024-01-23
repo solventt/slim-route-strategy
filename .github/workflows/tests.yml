@@ -14,17 +14,17 @@ jobs:
 
     steps:
       - name: Clone a repository
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@v4
         with:
           ref: 7.4
 
       - name: Install PHP 7.4
-        uses: shivammathur/setup-php@2.17.1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: 7.4
 
       - name: Install dependencies with Composer
-        uses: ramsey/composer-install@2.1.0
+        uses: ramsey/composer-install@v2
 
       - name: Run module tests
         run : vendor/bin/phpunit
