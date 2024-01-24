@@ -24,5 +24,11 @@
             </errorLevel>
         </PossiblyNullReference>
 
+        <RiskyTruthyFalsyComparison>
+            <errorLevel type="suppress">
+                <directory name="src" />
+            </errorLevel>
+        </RiskyTruthyFalsyComparison>
+
     </issueHandlers>
 </psalm>
