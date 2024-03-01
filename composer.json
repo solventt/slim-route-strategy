@@ -18,7 +18,7 @@
         "phpunit/phpunit": "^9.6",
         "slim/psr7": "^1.6",
         "squizlabs/php_codesniffer": "^3.8",
-        "vimeo/psalm": "^5.20"
+        "vimeo/psalm": "^5.22"
     },
 
     "autoload": {
