@@ -8,17 +8,17 @@
 
     "require": {
         "php": "^8.0",
-        "psr/container": "^1.0",
-        "slim/slim": "^3.0 || ^4.0"
+        "psr/container": "^1.1",
+        "slim/slim": "^4.13.0"
     },
 
     "require-dev": {
         "ext-json": "*",
-        "php-di/php-di": "^6.3",
-        "phpunit/phpunit": "^9.5",
-        "slim/psr7": "^1.0",
-        "squizlabs/php_codesniffer": "^3.6",
-        "vimeo/psalm": "^4.10"
+        "php-di/php-di": "^7.0",
+        "phpunit/phpunit": "^9.6",
+        "slim/psr7": "^1.6",
+        "squizlabs/php_codesniffer": "^3.9",
+        "vimeo/psalm": "^5.24"
     },
 
     "autoload": {
