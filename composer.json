@@ -9,7 +9,7 @@
     "require": {
         "php": "^8.0",
         "psr/container": "^1.1",
-        "slim/slim": "^4.13.0"
+        "slim/slim": "^4.15.1"
     },
 
     "require-dev": {
